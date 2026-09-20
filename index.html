@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2B0A12">
+<title>Dispatch — Afisa's IFS Study Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+
+    --wine-950: #2B0A12;
+    --wine-900: #380F1A;
+    --wine-800: #481522;
+    --wine-700: #5A1B2A;
+    --wine-600: #6E2233;
+    --gold-300: #E7C990;
+    --gold-500: #C89B5C;
+    --gold-700: #9C7639;
+    --cream: #F5E9D8;
+    --cream-soft: #D6B79A;
+    --coral: #E2725B;
+    --sage: #93BE97;
+
+    --bg: var(--wine-950);
+    --surface: #43121D;
+    --surface-alt: #521A28;
+    --text: var(--cream);
+    --text-soft: var(--cream-soft);
+    --border: rgba(245,233,216,0.14);
+    --accent: var(--gold-500);
+    --accent-bright: var(--gold-300);
+    --due: var(--coral);
+    --good: var(--sage);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #200810;
+      --surface: #360E19;
+      --surface-alt: #431422;
+      --border: rgba(245,233,216,0.12);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #200810;
+    --surface: #360E19;
+    --surface-alt: #431422;
+    --border: rgba(245,233,216,0.12);
+  }
+
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); height: 100%; -webkit-tap-highlight-color: transparent; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    background:
+      radial-gradient(1200px 700px at 12% -10%, rgba(200,155,92,0.09), transparent 60%),
+      radial-gradient(900px 600px at 100% 0%, rgba(122,30,50,0.35), transparent 55%),
+      var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    z-index: 0;
+  }
+  h1, h2, h3, .display {
+    font-family: 'Fraunces', Georgia, serif;
+    letter-spacing: -0.01em;
+    margin: 0;
+    color: var(--cream);
+  }
+
+  .masthead {
+    position: relative;
+    background: linear-gradient(180deg, var(--wine-950), var(--wine-900) 70%, var(--wine-800));
+    padding: env(safe-area-inset-top, 0px) 0 0 0;
+    border-bottom: 1px solid rgba(231,201,144,0.25);
+  }
+  .masthead-inner {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 34px 20px 26px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .seal {
+    flex: none;
+    width: 58px; height: 58px;
+    border-radius: 50%;
+    border: 1.5px solid var(--gold-500);
+    box-shadow: 0 0 0 3px rgba(200,155,92,0.12), inset 0 0 12px rgba(200,155,92,0.18);
+    display: flex; align-items: center; justify-content: center;
+    background: radial-gradient(circle at 35% 30%, rgba(231,201,144,0.18), transparent 65%), rgba(0,0,0,0.15);
+    animation: sealIn .7s cubic-bezier(.22,.61,.36,1) both, sealGlow 4.5s ease-in-out .7s infinite;
+  }
+  @keyframes sealIn { from { opacity: 0; transform: scale(.55) rotate(-10deg); } to { opacity: 1; transform: none; } }
+  @keyframes sealGlow {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(200,155,92,0.12), inset 0 0 12px rgba(200,155,92,0.18); }
+    50% { box-shadow: 0 0 0 7px rgba(200,155,92,0.20), inset 0 0 18px rgba(200,155,92,0.30); }
+  }
+  .seal span {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 24px;
+    color: var(--gold-300);
+  }
+  .masthead-text { animation: mastheadIn .7s cubic-bezier(.22,.61,.36,1) .18s both; }
+  @keyframes mastheadIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: none; } }
+  .masthead-text h1 { font-size: clamp(26px, 4vw, 34px); font-weight: 600; }
+  .masthead-text p { margin: 5px 0 0; font-size: 13.5px; color: var(--gold-300); font-family: 'Inter'; letter-spacing: 0.01em; }
+
+  nav.tabs {
+    max-width: 880px;
+    margin: 0 auto;
+    display: flex;
+    gap: 4px;
+    padding: 0 20px;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--border);
+    background: var(--wine-900);
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 5;
+  }
+  nav.tabs button {
+    font-family: 'Inter'; font-size: 14.5px; font-weight: 600;
+    background: none; border: none; color: var(--text-soft);
+    padding: 15px 14px 13px;
+    cursor: pointer;
+    border-bottom: 2.5px solid transparent;
+    white-space: nowrap;
+    transition: color .25s ease, border-color .25s ease;
+  }
+  nav.tabs button.active { color: var(--gold-300); border-bottom-color: var(--gold-500); }
+  nav.tabs button:active { transform: scale(0.97); }
+
+  main { max-width: 880px; margin: 0 auto; padding: 30px 20px 80px; position: relative; z-index: 1; }
+  .view { display: none; }
+  .view.active { display: block; opacity: 0; transform: translateY(10px); }
+  .view.active.enter-active {
+    opacity: 1; transform: none;
+    transition: opacity .4s cubic-bezier(.22,.61,.36,1), transform .4s cubic-bezier(.22,.61,.36,1);
+  }
+
+  .greeting { font-size: clamp(22px, 3.4vw, 28px); font-weight: 500; margin-bottom: 4px; }
+  .greeting-sub { color: var(--text-soft); font-size: 14px; margin-bottom: 24px; }
+
+  .note {
+    background: linear-gradient(135deg, rgba(200,155,92,0.10), rgba(200,155,92,0.02));
+    border: 1px solid rgba(200,155,92,0.35);
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 28px;
+  }
+  .note[contenteditable="true"]:focus { outline: 1.5px solid var(--gold-500); }
+  .note-label { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.09em; color: var(--gold-300); margin-bottom: 7px; display:block; }
+  .note p { margin: 0; font-family: 'Fraunces'; font-style: italic; font-size: 16.5px; line-height: 1.55; color: var(--cream); }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 17px 16px 15px;
+    transition: transform .25s cubic-bezier(.22,.61,.36,1), box-shadow .25s ease, border-color .25s ease;
+  }
+  .stat:hover {
+    transform: translateY(-3px);
+    border-color: rgba(200,155,92,0.4);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.28);
+  }
+  .stat .num { font-family: 'Fraunces'; font-size: 30px; font-weight: 500; color: var(--gold-300); }
+  .stat .lbl { font-size: 12.5px; color: var(--text-soft); margin-top: 3px; }
+  .stat { position: relative; overflow: visible; }
+
+  @keyframes sparkleFly {
+    0% { opacity: 1; transform: translate(0,0) scale(1); }
+    100% { opacity: 0; transform: translate(var(--sx), var(--sy)) scale(0.3); }
+  }
+  .sparkle {
+    position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gold-300); pointer-events: none;
+    animation: sparkleFly .8s ease-out forwards;
+    box-shadow: 0 0 6px 1px rgba(231,201,144,0.7);
+  }
+
+  section.block { margin-bottom: 36px; }
+  .block-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 13px; border-bottom: 1px solid var(--border); padding-bottom: 9px; }
+  .block-head h2 { font-size: 19px; font-weight: 600; }
+  .block-head .sub { font-size: 12.5px; color: var(--text-soft); }
+
+  .due-list, .ca-list { display: flex; flex-direction: column; gap: 9px; }
+  .due-item, .ca-item {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 13px 15px;
+    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease, opacity .3s ease;
+  }
+  .due-item:hover, .ca-item:hover { border-color: rgba(200,155,92,0.32); box-shadow: 0 6px 16px rgba(0,0,0,0.22); }
+  .due-item.overdue { border-left: 3px solid var(--due); }
+  .due-item .meta, .ca-item .meta { font-size: 12px; color: var(--text-soft); }
+  .due-item.leaving { animation: leaveOut .32s ease forwards; pointer-events: none; }
+  @keyframes leaveOut { to { opacity: 0; transform: translateX(16px) scale(.97); } }
+  .ca-item.entering { animation: dispatchIn .45s cubic-bezier(.22,.61,.36,1); }
+  @keyframes dispatchIn { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: none; } }
+  .pill-btn {
+    font-family: 'Inter'; font-size: 12.5px; font-weight: 700;
+    background: linear-gradient(180deg, var(--gold-300), var(--gold-500));
+    color: var(--wine-950); border: none;
+    padding: 8px 13px; border-radius: 6px; cursor: pointer;
+    transition: filter .18s ease, transform .12s ease;
+  }
+  .pill-btn:hover { filter: brightness(1.06); }
+  .pill-btn:active { transform: scale(0.95); }
+  .pill-btn.ghost { background: transparent; color: var(--gold-300); border: 1px solid var(--gold-500); }
+
+  .subject-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 9px; margin-bottom: 14px; overflow: hidden;
+    transition: border-color .25s ease, box-shadow .25s ease;
+  }
+  .subject-card:hover { border-color: rgba(200,155,92,0.3); }
+  .subject-header { display: flex; align-items: center; justify-content: space-between; padding: 15px 17px; cursor: pointer; }
+  .subject-header h3 { font-size: 16px; font-weight: 600; }
+  .subject-progress { font-size: 12px; color: var(--text-soft); font-family: 'Inter'; }
+  .bar { height: 5px; background: var(--surface-alt); border-radius: 3px; overflow: hidden; margin-top: 7px; position: relative; }
+  .bar > div { height: 100%; background: linear-gradient(90deg, var(--gold-500), var(--gold-300)); transition: width .6s cubic-bezier(.22,.61,.36,1); }
+  .topics {
+    border-top: 1px solid transparent;
+    padding: 0 17px;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height .42s cubic-bezier(.22,.61,.36,1), opacity .3s ease, padding .3s ease, border-color .3s ease;
+  }
+  .subject-card.open .topics { border-top-color: var(--border); padding: 8px 17px 14px; max-height: 1400px; opacity: 1; }
+  .topic-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px dashed var(--border); border-radius: 4px; transition: background .5s ease; }
+  .topic-row:last-child { border-bottom: none; }
+  .topic-row.just-done { animation: topicFlash 1s ease; }
+  @keyframes topicFlash {
+    0% { background: rgba(200,155,92,0.38); }
+    100% { background: transparent; }
+  }
+  .topic-row .tname { flex: 1; font-size: 14.5px; }
+  .status-select {
+    font-family: 'Inter'; font-size: 12.5px; padding: 6px 8px; border-radius: 6px;
+    border: 1px solid var(--border); background: var(--wine-900); color: var(--text);
+    transition: border-color .2s ease;
+  }
+  .add-topic-row { display: flex; gap: 8px; margin-top: 11px; }
+  .add-topic-row input {
+    flex: 1; font-family: 'Inter'; font-size: 13.5px; padding: 9px 11px;
+    border-radius: 6px; border: 1px solid var(--border); background: var(--wine-900); color: var(--text);
+  }
+  .add-topic-row input::placeholder { color: var(--text-soft); }
+  .chev { transition: transform 0.3s cubic-bezier(.22,.61,.36,1); color: var(--gold-500); display: inline-block; }
+  .subject-card.open .chev { transform: rotate(90deg); }
+
+  form.ca-form { display: flex; flex-direction: column; gap: 11px; background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 18px; margin-bottom: 20px; }
+  .ca-form .row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .ca-form input, .ca-form textarea, .ca-form select {
+    font-family: 'Inter'; font-size: 14px; padding: 10px 11px; border-radius: 6px;
+    border: 1px solid var(--border); background: var(--wine-900); color: var(--text);
+  }
+  .ca-form input[type="date"] { flex: 1; min-width: 140px; color-scheme: dark; }
+  .ca-form select { flex: 1; min-width: 140px; }
+  .ca-form textarea { width: 100%; min-height: 66px; resize: vertical; font-family: 'Inter'; }
+  .ca-form textarea::placeholder { color: var(--text-soft); }
+
+  .chip-row { display: flex; gap: 7px; flex-wrap: wrap; }
+  .chip {
+    font-family: 'Inter'; font-size: 12px; font-weight: 600;
+    background: var(--surface-alt); color: var(--gold-300);
+    border: 1px solid rgba(200,155,92,0.35);
+    padding: 6px 11px; border-radius: 20px; cursor: pointer;
+  }
+  .chip:hover { background: rgba(200,155,92,0.16); }
+
+  .textarea-wrap { position: relative; }
+  .textarea-wrap textarea { padding-right: 46px; }
+  .mic-btn {
+    position: absolute; right: 8px; bottom: 8px;
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 1px solid rgba(200,155,92,0.4); background: var(--wine-800);
+    color: var(--gold-300); font-size: 15px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .mic-btn.listening { background: var(--due); border-color: var(--due); color: var(--cream); animation: pulse 1.1s infinite; }
+  @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(226,114,91,0.5); } 50% { box-shadow: 0 0 0 7px rgba(226,114,91,0); } }
+  .mic-hint { font-size: 11.5px; color: var(--text-soft); margin-top: -4px; }
+  .ca-item { align-items: flex-start; }
+  .ca-item .tag { display:inline-block; font-size: 11px; font-weight: 700; color: var(--wine-950); background: var(--gold-300); padding: 2px 9px; border-radius: 20px; margin-bottom: 5px; }
+  .ca-item .txt { font-size: 14.5px; }
+  .ca-item .del { background: none; border: none; color: var(--text-soft); cursor: pointer; font-size: 18px; line-height: 1; padding: 2px 4px; }
+  .empty { color: var(--text-soft); font-size: 14px; font-style: italic; padding: 20px 0; text-align: center; }
+
+  footer.tip { text-align: center; font-size: 12px; color: var(--text-soft); margin-top: 44px; position: relative; z-index: 1; padding-bottom: 20px; }
+  footer.tip .rule { width: 60px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-500), transparent); margin: 0 auto 14px; }
+
+  .backup-block {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 9px;
+    padding: 18px 20px; margin-top: 6px;
+  }
+  .backup-block p.desc { font-size: 13.5px; color: var(--text-soft); margin: 4px 0 14px; }
+  .backup-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .backup-status { font-size: 12.5px; color: var(--gold-300); margin-top: 10px; min-height: 16px; }
+  .restore-toggle { background: none; border: none; color: var(--gold-300); font-family: 'Inter'; font-size: 13px; font-weight: 600; cursor: pointer; padding: 0; margin-top: 16px; text-decoration: underline; text-underline-offset: 3px; }
+  .restore-area { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--border); }
+  .restore-area.open { display: block; }
+  .restore-area textarea {
+    width: 100%; min-height: 70px; font-family: 'Inter'; font-size: 12.5px;
+    padding: 9px 11px; border-radius: 6px; border: 1px solid var(--border);
+    background: var(--wine-900); color: var(--text); margin-top: 8px;
+  }
+  .restore-area input[type="file"] { font-family: 'Inter'; font-size: 12.5px; color: var(--text-soft); margin-top: 4px; }
+
+  .reminder-banner {
+    display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+    background: linear-gradient(135deg, rgba(226,114,91,0.14), rgba(200,155,92,0.06));
+    border: 1px solid rgba(226,114,91,0.4);
+    border-radius: 8px; padding: 14px 16px; margin-bottom: 22px;
+  }
+  .reminder-banner p { margin: 0; font-size: 13.5px; color: var(--cream); flex: 1; min-width: 200px; }
+  .reminder-banner .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .reminder-banner .link-btn { background: none; border: none; color: var(--gold-300); font-family: 'Inter'; font-size: 12.5px; font-weight: 600; cursor: pointer; padding: 6px 4px; text-decoration: underline; text-underline-offset: 3px; }
+
+  @media (max-width: 480px) {
+    .masthead-inner { padding: 26px 16px 20px; gap: 12px; }
+    .seal { width: 46px; height: 46px; }
+    .seal span { font-size: 19px; }
+    main { padding: 22px 14px 70px; }
+    .pill-btn, .chip, .status-select, .restore-toggle { min-height: 38px; }
+    .chip { padding: 8px 12px; }
+    .pill-btn { padding: 10px 14px; }
+    .backup-actions { flex-direction: column; }
+    .backup-actions .pill-btn { width: 100%; }
+    .due-item, .ca-item { flex-wrap: wrap; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .tname, .ca-item .txt, .note p { word-break: break-word; }
+  }
+
+  /* Prevent iOS Safari from zooming the page when a form field is focused */
+  @media (max-width: 768px) {
+    .ca-form input, .ca-form textarea, .ca-form select,
+    .status-select, .add-topic-row input, .restore-area textarea {
+      font-size: 16px;
+    }
+  }
+
+  /* Comfortable, tap-friendly sizing on touch devices */
+  @media (hover: none) and (pointer: coarse) {
+    .pill-btn { min-height: 44px; padding: 11px 16px; }
+    nav.tabs button { min-height: 48px; padding: 16px 14px; }
+    .chip { min-height: 40px; }
+    .mic-btn { width: 38px; height: 38px; }
+    .ca-item .del { padding: 8px; font-size: 20px; }
+    .subject-header { padding: 17px; }
+    .restore-toggle { padding: 8px 0; display: inline-block; }
+    .status-select { min-height: 40px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .seal, .masthead-text, .view.active, .topics, .due-item, .ca-item, .stat,
+    .subject-card, .mic-btn.listening, .topic-row, .bar > div, .chev, .sparkle {
+      animation: none !important;
+      transition: none !important;
+    }
+    .view.active { opacity: 1; transform: none; }
+  }
+</style>
+<link rel="icon" type="image/x-icon" href="ChatGPT Image Sep 20, 2026, 05_52_47 PM.png">
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <div class="seal"><span>A</span></div>
+    <div class="masthead-text">
+      <h1>Dispatch</h1>
+      <p>Afisa's companion on the road to the Indian Foreign Service</p>
+    </div>
+  </div>
+</div>
+
+<nav class="tabs">
+  <button data-view="dashboard" class="active">Dashboard</button>
+  <button data-view="syllabus">Syllabus</button>
+  <button data-view="affairs">Current Affairs</button>
+  <button data-view="revision">Revision</button>
+</nav>
+
+<main>
+
+  <!-- DASHBOARD -->
+  <div class="view active" id="view-dashboard">
+    <div class="greeting">Welcome back, Afisa</div>
+    <div class="greeting-sub" id="greetingSub"></div>
+
+    <div class="reminder-banner" id="backupReminder" style="display:none;">
+      <p id="backupReminderText"></p>
+      <div class="actions">
+        <button class="pill-btn" id="backupReminderGo" type="button">Back up now</button>
+        <button class="link-btn" id="backupReminderLater" type="button">Not now</button>
+      </div>
+    </div>
+
+    <div class="note">
+      <span class="note-label">Kept here for you</span>
+      <p id="personalNote" contenteditable="true" spellcheck="false"></p>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat"><div class="num" id="statProgress">0%</div><div class="lbl">Syllabus covered</div></div>
+      <div class="stat"><div class="num" id="statDue">0</div><div class="lbl">Revisions due today</div></div>
+      <div class="stat"><div class="num" id="statEntries">0</div><div class="lbl">Current affairs logged</div></div>
+      <div class="stat"><div class="num" id="statDays">0</div><div class="lbl">Days since you began</div></div>
+    </div>
+
+    <section class="block">
+      <div class="block-head">
+        <h2>Due for revision</h2>
+        <span class="sub">Spaced review, so nothing is forgotten by exam day</span>
+      </div>
+      <div class="due-list" id="dashboardDueList"></div>
+    </section>
+
+    <section class="block">
+      <div class="block-head">
+        <h2>Latest dispatches</h2>
+        <span class="sub">Your most recent current affairs notes</span>
+      </div>
+      <div class="ca-list" id="dashboardCaList"></div>
+    </section>
+
+    <section class="block">
+      <div class="block-head">
+        <h2>Keep a backup</h2>
+        <span class="sub">Your data lives only in this browser</span>
+      </div>
+      <div class="backup-block">
+        <p class="desc">If this browser's data ever gets cleared, or you switch devices, everything here would be lost unless you've saved a copy. Takes ten seconds — worth doing every so often.</p>
+        <div class="backup-actions">
+          <button class="pill-btn" id="downloadBackupBtn">Download backup file</button>
+          <button class="pill-btn ghost" id="copyBackupBtn">Copy backup as text</button>
+        </div>
+        <div class="backup-status" id="backupStatus"></div>
+        <button class="restore-toggle" id="restoreToggle" type="button">Need to restore from a backup?</button>
+        <div class="restore-area" id="restoreArea">
+          <div>Choose a backup file:</div>
+          <input type="file" id="restoreFile" accept="application/json,.json">
+          <div style="margin-top:12px;">Or paste backup text here:</div>
+          <textarea id="restoreText" placeholder="Paste the copied backup text here…"></textarea>
+          <div class="backup-actions" style="margin-top:10px;">
+            <button class="pill-btn" id="restoreBtn">Restore this data</button>
+          </div>
+          <div class="backup-status" id="restoreStatus"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- SYLLABUS -->
+  <div class="view" id="view-syllabus">
+    <section class="block">
+      <div class="block-head">
+        <h2>Prelims</h2>
+        <span class="sub">General Studies Paper I &amp; CSAT</span>
+      </div>
+      <div id="prelimsList"></div>
+    </section>
+    <section class="block">
+      <div class="block-head">
+        <h2>Mains</h2>
+        <span class="sub">Written papers, including your optional subject</span>
+      </div>
+      <div id="mainsList"></div>
+    </section>
+  </div>
+
+  <!-- CURRENT AFFAIRS -->
+  <div class="view" id="view-affairs">
+    <form class="ca-form" id="caForm">
+      <div class="row">
+        <input type="date" id="caDate" required>
+        <select id="caTag">
+          <option>Polity</option>
+          <option>International Relations</option>
+          <option>Economy</option>
+          <option>Environment</option>
+          <option>Science &amp; Tech</option>
+          <option>History &amp; Society</option>
+          <option>Geography</option>
+          <option>Ethics</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="chip-row" id="chipRow"></div>
+      <div class="textarea-wrap">
+        <textarea id="caNote" placeholder="What's worth remembering from today? Keep it short — you'll thank yourself later." required></textarea>
+        <button type="button" class="mic-btn" id="micBtn" title="Speak instead of typing">🎙️</button>
+      </div>
+      <div class="mic-hint" id="micHint" style="display:none;">Tap the mic, speak your note, tap again to stop.</div>
+      <div>
+        <button type="submit" class="pill-btn">Log dispatch</button>
+      </div>
+    </form>
+    <div class="ca-list" id="caFullList"></div>
+  </div>
+
+  <!-- REVISION -->
+  <div class="view" id="view-revision">
+    <section class="block">
+      <div class="block-head">
+        <h2>Due or overdue</h2>
+        <span class="sub">Mark a topic reviewed once you've gone back over it</span>
+      </div>
+      <div class="due-list" id="revisionDueList"></div>
+    </section>
+    <section class="block">
+      <div class="block-head">
+        <h2>Coming up</h2>
+        <span class="sub">Scheduled for the days ahead</span>
+      </div>
+      <div class="due-list" id="revisionUpcomingList"></div>
+    </section>
+  </div>
+
+</main>
+
+<footer class="tip"><div class="rule"></div>Everything here stays only on this device, in this browser.</footer>
+
+<script>
+(function(){
+  const STORAGE_KEY = 'dispatch_state_v2_afisa';
+  const REVIEW_INTERVALS = [1, 3, 7, 16, 35, 60];
+
+  const defaultSyllabus = {
+    prelims: [
+      { subject: "Polity & Governance", topics: ["Constitution: framing & features","Fundamental Rights & DPSP","Union & State executive","Parliament & State legislatures","Judiciary & judicial review","Local government (Panchayati Raj, Municipalities)","Constitutional bodies","Governance & rights issues"] },
+      { subject: "History", topics: ["Ancient India","Medieval India","Modern India (pre-1857)","Freedom struggle (1857–1947)","Post-independence consolidation","Art & culture"] },
+      { subject: "Geography", topics: ["Physical geography: world","Physical geography: India","Indian climate, soils, rivers","Economic geography & resources","Population & settlements","World geography: regions"] },
+      { subject: "Economy", topics: ["Basic economic concepts","Indian economy: sectors","Money, banking & inflation","Fiscal policy & budget","Government schemes","External sector & trade"] },
+      { subject: "Environment & Ecology", topics: ["Ecosystems & biodiversity","Climate change basics","Environmental laws & bodies","Pollution & conservation","International conventions"] },
+      { subject: "Science & Technology", topics: ["Space & defence tech","Biotechnology & health","IT & emerging tech","Everyday science applications"] },
+      { subject: "CSAT", topics: ["Comprehension","Logical reasoning","Basic numeracy","Data interpretation"] },
+    ],
+    mains: [
+      { subject: "Essay", topics: ["Practice: philosophical themes","Practice: current affairs themes","Practice: social issues"] },
+      { subject: "GS I — History, Geography, Society", topics: ["Indian heritage & culture","Modern Indian history","World history","Indian society & diversity","Geography: physical & human"] },
+      { subject: "GS II — Governance, Polity, IR", topics: ["Constitutional framework","Governance & welfare schemes","Social justice","International relations & India's neighbourhood","India & the world: institutions"] },
+      { subject: "GS III — Economy, Environment, Security, Tech", topics: ["Indian economy & planning","Agriculture & food security","Science & tech developments","Environment & disaster management","Internal security"] },
+      { subject: "GS IV — Ethics, Integrity, Aptitude", topics: ["Ethics theories & thinkers","Public service values","Emotional intelligence","Case studies practice"] },
+      { subject: "Optional Subject — Paper I", topics: ["Add topics as you finalise your optional"] },
+      { subject: "Optional Subject — Paper II", topics: ["Add topics as you finalise your optional"] },
+      { subject: "Interview Preparation", topics: ["DAF-based questions","Current affairs & foreign policy stance","Mock interviews","Personality & hobbies talking points"] },
+    ]
+  };
+
+  function uid(){ return Math.random().toString(36).slice(2, 10); }
+
+  function loadState(){
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch(e) { console.warn('Could not read saved data', e); }
+    const syllabus = JSON.parse(JSON.stringify(defaultSyllabus));
+    [...syllabus.prelims, ...syllabus.mains].forEach(sec => {
+      sec.items = sec.topics.map(t => ({ id: uid(), name: t, status: 'todo', stage: 0, due: null }));
+      delete sec.topics;
+    });
+    return {
+      startDate: new Date().toISOString().slice(0,10),
+      note: "Afisa — I made this because I believe in what you're working towards. One page of the syllabus a day, one dispatch logged at a time. You've got this. 🤍",
+      syllabus,
+      caEntries: []
+    };
+  }
+
+  let state = loadState();
+
+  function saveState(){
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+    catch(e) { console.warn('Could not save data', e); }
+  }
+
+  function todayStr(){ return new Date().toISOString().slice(0,10); }
+  function daysBetween(a, b){ return Math.round((new Date(b) - new Date(a)) / 86400000); }
+  function fmtDate(d){
+    return new Date(d + 'T00:00:00').toLocaleDateString(undefined, { day:'numeric', month:'short', year:'numeric' });
+  }
+
+  const greetings = [
+    "Every page you cover today is a step the Afisa of tomorrow will thank you for.",
+    "Steady wins this race. Log today's work, however small.",
+    "The syllabus is long. Today's task doesn't have to be."
+  ];
+  document.getElementById('greetingSub').textContent = greetings[Math.floor(Math.random()*greetings.length)];
+
+  // ---------- Tabs ----------
+  document.querySelectorAll('nav.tabs button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.view').forEach(v => { v.classList.remove('active', 'enter-active'); });
+      btn.classList.add('active');
+      const target = document.getElementById('view-' + btn.dataset.view);
+      target.classList.add('active');
+      requestAnimationFrame(() => requestAnimationFrame(() => target.classList.add('enter-active')));
+      if (btn.dataset.view === 'dashboard') renderDashboard();
+      if (btn.dataset.view === 'revision') renderRevision();
+    });
+  });
+
+  // ---------- Personal note ----------
+  const noteEl = document.getElementById('personalNote');
+  noteEl.textContent = state.note;
+  noteEl.addEventListener('blur', () => {
+    state.note = noteEl.textContent.trim();
+    saveState();
+  });
+
+  // ---------- Syllabus rendering ----------
+  function allItems(){
+    const out = [];
+    [...state.syllabus.prelims, ...state.syllabus.mains].forEach(sec => {
+      sec.items.forEach(it => out.push(it));
+    });
+    return out;
+  }
+
+  const openSubjects = new Set();
+
+  function renderSyllabusSection(containerId, sections, justCompletedId){
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    sections.forEach(sec => {
+      const done = sec.items.filter(i => i.status === 'done').length;
+      const pct = sec.items.length ? Math.round((done / sec.items.length) * 100) : 0;
+      const sectionKey = containerId + '|' + sec.subject;
+
+      const card = document.createElement('div');
+      card.className = 'subject-card' + (openSubjects.has(sectionKey) ? ' open' : '');
+
+      const header = document.createElement('div');
+      header.className = 'subject-header';
+      header.innerHTML = `
+        <div style="flex:1">
+          <h3>${sec.subject}</h3>
+          <div class="subject-progress">${done} of ${sec.items.length} topics · ${pct}%</div>
+          <div class="bar"><div style="width:${pct}%"></div></div>
+        </div>
+        <span class="chev">›</span>
+      `;
+      header.addEventListener('click', () => {
+        card.classList.toggle('open');
+        if (card.classList.contains('open')) openSubjects.add(sectionKey);
+        else openSubjects.delete(sectionKey);
+      });
+
+      const topicsWrap = document.createElement('div');
+      topicsWrap.className = 'topics';
+
+      sec.items.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'topic-row';
+        row.dataset.id = item.id;
+        row.innerHTML = `
+          <span class="tname">${item.name}</span>
+          <select class="status-select" data-id="${item.id}">
+            <option value="todo" ${item.status==='todo'?'selected':''}>Not started</option>
+            <option value="started" ${item.status==='started'?'selected':''}>In progress</option>
+            <option value="done" ${item.status==='done'?'selected':''}>Studied</option>
+          </select>
+        `;
+        row.querySelector('select').addEventListener('change', (e) => {
+          const newStatus = e.target.value;
+          const wasSubjectComplete = sec.items.length > 0 && sec.items.every(i => i.status === 'done');
+          item.status = newStatus;
+          if (newStatus === 'done' && item.stage === 0) {
+            item.stage = 1;
+            item.due = new Date(Date.now() + REVIEW_INTERVALS[0]*86400000).toISOString().slice(0,10);
+          }
+          if (newStatus !== 'done') { item.stage = 0; item.due = null; }
+          saveState();
+          renderSyllabusSection(containerId, sections, newStatus === 'done' ? item.id : null);
+          renderDashboard();
+          const nowComplete = sec.items.length > 0 && sec.items.every(i => i.status === 'done');
+          if (!wasSubjectComplete && nowComplete) {
+            const headerEl = document.querySelector(`#${containerId} .subject-card.open .subject-header`);
+            if (headerEl) celebrate(headerEl);
+          }
+        });
+        topicsWrap.appendChild(row);
+      });
+
+      const addRow = document.createElement('div');
+      addRow.className = 'add-topic-row';
+      addRow.innerHTML = `<input type="text" placeholder="Add a topic to this section…"><button class="pill-btn ghost" type="button">Add</button>`;
+      const input = addRow.querySelector('input');
+      const addBtn = addRow.querySelector('button');
+      function addTopic(){
+        const val = input.value.trim();
+        if (!val) return;
+        sec.items.push({ id: uid(), name: val, status: 'todo', stage: 0, due: null });
+        saveState();
+        renderSyllabusSection(containerId, sections);
+      }
+      addBtn.addEventListener('click', addTopic);
+      input.addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); addTopic(); } });
+      topicsWrap.appendChild(addRow);
+
+      card.appendChild(header);
+      card.appendChild(topicsWrap);
+      container.appendChild(card);
+    });
+
+    if (justCompletedId) {
+      const flashRow = container.querySelector(`.topic-row[data-id="${justCompletedId}"]`);
+      if (flashRow) {
+        requestAnimationFrame(() => {
+          flashRow.classList.add('just-done');
+          setTimeout(() => flashRow.classList.remove('just-done'), 1000);
+        });
+      }
+    }
+  }
+
+  function celebrate(anchorEl){
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const rect = anchorEl.getBoundingClientRect();
+    const layer = document.createElement('div');
+    layer.style.position = 'fixed';
+    layer.style.left = (rect.left + rect.width / 2) + 'px';
+    layer.style.top = (rect.top + rect.height / 2) + 'px';
+    layer.style.width = '0'; layer.style.height = '0';
+    layer.style.zIndex = '999';
+    layer.style.pointerEvents = 'none';
+    document.body.appendChild(layer);
+    const count = 10;
+    for (let i = 0; i < count; i++) {
+      const s = document.createElement('span');
+      s.className = 'sparkle';
+      const angle = (Math.PI * 2 * i) / count;
+      const dist = 34 + Math.random() * 18;
+      s.style.setProperty('--sx', (Math.cos(angle) * dist) + 'px');
+      s.style.setProperty('--sy', (Math.sin(angle) * dist) + 'px');
+      s.style.animationDelay = (Math.random() * 0.08) + 's';
+      layer.appendChild(s);
+    }
+    setTimeout(() => layer.remove(), 1000);
+  }
+
+  function renderSyllabus(){
+    renderSyllabusSection('prelimsList', state.syllabus.prelims);
+    renderSyllabusSection('mainsList', state.syllabus.mains);
+  }
+
+  // ---------- Current Affairs: quick-tap starter chips ----------
+  const chipTemplates = [
+    "New scheme launched: ",
+    "Court ruling on: ",
+    "India signed an agreement with: ",
+    "Report/Index released: ",
+    "Appointment or resignation: ",
+    "Bill passed in Parliament: ",
+    "Summit or conference: ",
+    "Word/term in the news: "
+  ];
+  const chipRow = document.getElementById('chipRow');
+  const caNoteEl = document.getElementById('caNote');
+  chipTemplates.forEach(tpl => {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'chip';
+    chip.textContent = tpl.replace(': ', '');
+    chip.addEventListener('click', () => {
+      caNoteEl.value = caNoteEl.value ? caNoteEl.value + '\n' + tpl : tpl;
+      caNoteEl.focus();
+      caNoteEl.setSelectionRange(caNoteEl.value.length, caNoteEl.value.length);
+    });
+    chipRow.appendChild(chip);
+  });
+
+  // ---------- Current Affairs: voice input ----------
+  const micBtn = document.getElementById('micBtn');
+  const micHint = document.getElementById('micHint');
+  const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (SpeechRecognitionAPI) {
+    let recognizer = null;
+    let listening = false;
+    micBtn.addEventListener('click', () => {
+      if (listening) {
+        recognizer && recognizer.stop();
+        return;
+      }
+      recognizer = new SpeechRecognitionAPI();
+      recognizer.lang = 'en-IN';
+      recognizer.interimResults = false;
+      recognizer.continuous = true;
+
+      recognizer.onstart = () => {
+        listening = true;
+        micBtn.classList.add('listening');
+        micHint.style.display = 'block';
+        micHint.textContent = 'Listening… tap the mic again to stop.';
+      };
+      recognizer.onresult = (event) => {
+        let transcript = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript;
+        }
+        if (transcript.trim()) {
+          caNoteEl.value = caNoteEl.value ? caNoteEl.value + ' ' + transcript.trim() : transcript.trim();
+        }
+      };
+      recognizer.onerror = () => {
+        micHint.textContent = "Couldn't hear that — check the mic permission and try again.";
+      };
+      recognizer.onend = () => {
+        listening = false;
+        micBtn.classList.remove('listening');
+        micHint.textContent = 'Tap the mic, speak your note, tap again to stop.';
+      };
+      try { recognizer.start(); } catch(e) { console.warn(e); }
+    });
+  } else {
+    micBtn.style.display = 'none';
+  }
+
+  // ---------- Current Affairs ----------
+  document.getElementById('caDate').value = todayStr();
+
+  document.getElementById('caForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const date = document.getElementById('caDate').value || todayStr();
+    const tag = document.getElementById('caTag').value;
+    const note = document.getElementById('caNote').value.trim();
+    if (!note) return;
+    state.caEntries.unshift({ id: uid(), date, tag, note });
+    saveState();
+    document.getElementById('caNote').value = '';
+    renderCurrentAffairs(true);
+    renderDashboard();
+  });
+
+  function caItemHTML(entry){
+    return `
+      <div class="ca-item" data-id="${entry.id}">
+        <div style="flex:1">
+          <span class="tag">${entry.tag}</span>
+          <div class="txt">${entry.note.replace(/</g,'&lt;')}</div>
+          <div class="meta">${fmtDate(entry.date)}</div>
+        </div>
+        <button class="del" title="Delete">×</button>
+      </div>
+    `;
+  }
+
+  function renderCurrentAffairs(animateFirst){
+    const list = document.getElementById('caFullList');
+    if (!state.caEntries.length) {
+      list.innerHTML = `<div class="empty">No dispatches logged yet. Start with one line from today's paper.</div>`;
+      return;
+    }
+    list.innerHTML = state.caEntries.map(caItemHTML).join('');
+    if (animateFirst) {
+      const first = list.querySelector('.ca-item');
+      if (first) first.classList.add('entering');
+    }
+    list.querySelectorAll('.del').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.closest('.ca-item').dataset.id;
+        state.caEntries = state.caEntries.filter(e => e.id !== id);
+        saveState();
+        renderCurrentAffairs();
+        renderDashboard();
+      });
+    });
+  }
+
+  // ---------- Revision ----------
+  function reviewItem(item){
+    item.stage = Math.min(item.stage + 1, REVIEW_INTERVALS.length);
+    const days = REVIEW_INTERVALS[item.stage - 1];
+    item.due = new Date(Date.now() + days*86400000).toISOString().slice(0,10);
+    saveState();
+    renderRevision();
+    renderDashboard();
+  }
+
+  function dueRowHTML(item, overdue){
+    return `
+      <div class="due-item ${overdue ? 'overdue' : ''}" data-id="${item.id}">
+        <div>
+          <div>${item.name}</div>
+          <div class="meta">${overdue ? 'Was due' : 'Due'} ${fmtDate(item.due)}</div>
+        </div>
+        <button class="pill-btn" data-action="review">Reviewed</button>
+      </div>
+    `;
+  }
+
+  function wireDueButtons(container, items){
+    container.querySelectorAll('[data-action="review"]').forEach((btn, idx) => {
+      btn.addEventListener('click', () => {
+        const row = btn.closest('.due-item');
+        celebrate(btn);
+        row.classList.add('leaving');
+        setTimeout(() => reviewItem(items[idx]), 300);
+      });
+    });
+  }
+
+  function renderRevision(){
+    const items = allItems().filter(i => i.status === 'done' && i.due);
+    const today = todayStr();
+    const overdueOrToday = items.filter(i => i.due <= today).sort((a,b)=>a.due.localeCompare(b.due));
+    const upcoming = items.filter(i => i.due > today).sort((a,b)=>a.due.localeCompare(b.due)).slice(0, 20);
+
+    const dueList = document.getElementById('revisionDueList');
+    dueList.innerHTML = overdueOrToday.length
+      ? overdueOrToday.map(i => dueRowHTML(i, i.due < today)).join('')
+      : `<div class="empty">Nothing due right now — good moment to move a topic forward instead.</div>`;
+    wireDueButtons(dueList, overdueOrToday);
+
+    const upList = document.getElementById('revisionUpcomingList');
+    upList.innerHTML = upcoming.length
+      ? upcoming.map(i => `<div class="due-item"><div><div>${i.name}</div><div class="meta">Due ${fmtDate(i.due)}</div></div></div>`).join('')
+      : `<div class="empty">Nothing scheduled yet.</div>`;
+  }
+
+  function animateNumber(el, target, suffix){
+    suffix = suffix || '';
+    const start = parseInt(el.textContent, 10) || 0;
+    if (start === target) { el.textContent = target + suffix; return; }
+    const duration = 550;
+    const startTime = performance.now();
+    function tick(now){
+      const t = Math.min(1, (now - startTime) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const val = Math.round(start + (target - start) * eased);
+      el.textContent = val + suffix;
+      if (t < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  // ---------- Dashboard ----------
+  function renderDashboard(){
+    const items = allItems();
+    const done = items.filter(i => i.status === 'done').length;
+    const pct = items.length ? Math.round((done/items.length)*100) : 0;
+    animateNumber(document.getElementById('statProgress'), pct, '%');
+
+    const today = todayStr();
+    const dueToday = items.filter(i => i.status === 'done' && i.due && i.due <= today);
+    animateNumber(document.getElementById('statDue'), dueToday.length);
+
+    animateNumber(document.getElementById('statEntries'), state.caEntries.length);
+
+    const days = Math.max(0, daysBetween(state.startDate, today));
+    animateNumber(document.getElementById('statDays'), days);
+
+    if (!state.celebratedMilestones) state.celebratedMilestones = [];
+    [25, 50, 75, 100].forEach(m => {
+      if (pct >= m && !state.celebratedMilestones.includes(m)) {
+        state.celebratedMilestones.push(m);
+        saveState();
+        const progressCard = document.getElementById('statProgress').closest('.stat');
+        if (progressCard) celebrate(progressCard);
+      }
+    });
+
+    const dueList = document.getElementById('dashboardDueList');
+    const sortedDue = dueToday.sort((a,b)=>a.due.localeCompare(b.due)).slice(0, 5);
+    dueList.innerHTML = sortedDue.length
+      ? sortedDue.map(i => dueRowHTML(i, i.due < today)).join('')
+      : `<div class="empty">Nothing due today. Good day to log a new dispatch, or push a topic forward.</div>`;
+    wireDueButtons(dueList, sortedDue);
+
+    const caList = document.getElementById('dashboardCaList');
+    const recent = state.caEntries.slice(0, 3);
+    caList.innerHTML = recent.length
+      ? recent.map(caItemHTML).join('')
+      : `<div class="empty">No dispatches logged yet.</div>`;
+    caList.querySelectorAll('.del').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.closest('.ca-item').dataset.id;
+        state.caEntries = state.caEntries.filter(e => e.id !== id);
+        saveState();
+        renderCurrentAffairs();
+        renderDashboard();
+      });
+    });
+
+    if (typeof checkBackupReminder === 'function') checkBackupReminder();
+  }
+
+  // ---------- Init ----------
+  renderSyllabus();
+  renderCurrentAffairs();
+  renderDashboard();
+  renderRevision();
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    document.getElementById('view-dashboard').classList.add('enter-active');
+  }));
+
+  // ---------- Backup & Restore ----------
+  let downloadsCap = null;
+  (async () => {
+    try {
+      if (window.claude && typeof window.claude.use === 'function') {
+        downloadsCap = await window.claude.use('downloads');
+      }
+    } catch (e) { /* not available in this view */ }
+    // No special claude.ai capability needed elsewhere — a plain hosted page
+    // (Vercel, GitHub Pages, etc.) can download files directly via the browser.
+  })();
+
+  function backupStatusMsg(text){
+    const el = document.getElementById('backupStatus');
+    el.textContent = text;
+    setTimeout(() => { if (el.textContent === text) el.textContent = ''; }, 4000);
+  }
+
+  function browserFileDownload(filename, dataStr){
+    try {
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  document.getElementById('downloadBackupBtn').addEventListener('click', async () => {
+    const filename = 'dispatch-backup-' + todayStr() + '.json';
+    const data = JSON.stringify(state, null, 2);
+
+    if (downloadsCap) {
+      // Running inside a claude.ai artifact — use its save dialog
+      try {
+        const res = await downloadsCap.save({ filename, data });
+        if (res) {
+          backupStatusMsg('Saved. Keep it somewhere safe — Drive, email to yourself, anywhere.');
+          markBackedUp();
+        } else {
+          backupStatusMsg('Download was cancelled.');
+        }
+      } catch (e) {
+        backupStatusMsg("Couldn't save the file — try 'Copy backup as text' instead.");
+      }
+      return;
+    }
+
+    // Running on a normal host (Vercel, GitHub Pages, opened as a local file, etc.)
+    if (browserFileDownload(filename, data)) {
+      backupStatusMsg('Saved to your downloads. Keep it somewhere safe — Drive, email to yourself, anywhere.');
+      markBackedUp();
+    } else {
+      backupStatusMsg("Couldn't save the file — try 'Copy backup as text' instead.");
+    }
+  });
+
+  document.getElementById('copyBackupBtn').addEventListener('click', async () => {
+    const text = JSON.stringify(state);
+    try {
+      await navigator.clipboard.writeText(text);
+      backupStatusMsg('Copied. Paste it into a Notes app or message to yourself to keep it safe.');
+      markBackedUp();
+    } catch (e) {
+      const ta = document.getElementById('restoreText');
+      document.getElementById('restoreArea').classList.add('open');
+      ta.value = text;
+      ta.select();
+      backupStatusMsg('Select the text below and copy it manually.');
+    }
+  });
+
+  // ---------- Backup reminder ----------
+  function markBackedUp(){
+    state.lastBackupAt = Date.now();
+    saveState();
+    hideBackupReminder();
+  }
+
+  function hideBackupReminder(){
+    document.getElementById('backupReminder').style.display = 'none';
+  }
+
+  function checkBackupReminder(){
+    const banner = document.getElementById('backupReminder');
+    const now = Date.now();
+    const daysSinceStart = daysBetween(state.startDate, todayStr());
+    const daysSinceBackup = state.lastBackupAt ? (now - state.lastBackupAt) / 86400000 : Infinity;
+    const daysSinceDismiss = state.lastReminderDismissedAt ? (now - state.lastReminderDismissedAt) / 86400000 : Infinity;
+
+    const neverBackedUpAndSettling = !state.lastBackupAt && daysSinceStart >= 3;
+    const dueForReminder = daysSinceBackup >= 14;
+    const notRecentlyDismissed = daysSinceDismiss >= 4;
+
+    if ((neverBackedUpAndSettling || dueForReminder) && notRecentlyDismissed) {
+      document.getElementById('backupReminderText').textContent = state.lastBackupAt
+        ? "It's been a couple of weeks since your last backup. Worth doing again, just in case."
+        : "You haven't saved a backup yet. If this browser's data gets cleared, everything here would be lost.";
+      banner.style.display = 'flex';
+    } else {
+      hideBackupReminder();
+    }
+  }
+
+  document.getElementById('backupReminderGo').addEventListener('click', () => {
+    document.getElementById('downloadBackupBtn').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    document.getElementById('downloadBackupBtn').click();
+  });
+
+  document.getElementById('backupReminderLater').addEventListener('click', () => {
+    state.lastReminderDismissedAt = Date.now();
+    saveState();
+    hideBackupReminder();
+  });
+
+  document.getElementById('restoreToggle').addEventListener('click', () => {
+    document.getElementById('restoreArea').classList.toggle('open');
+  });
+
+  function restoreStatusMsg(text){
+    document.getElementById('restoreStatus').textContent = text;
+  }
+
+  function applyRestoredState(parsed){
+    if (!parsed || typeof parsed !== 'object' || !parsed.syllabus) {
+      restoreStatusMsg("That doesn't look like a Dispatch backup file.");
+      return;
+    }
+    const ok = confirm("This replaces everything currently in the app with the backup. Continue?");
+    if (!ok) return;
+    state = parsed;
+    saveState();
+    noteEl.textContent = state.note || '';
+    renderSyllabus();
+    renderCurrentAffairs();
+    renderDashboard();
+    renderRevision();
+    restoreStatusMsg('Restored successfully.');
+  }
+
+  document.getElementById('restoreFile').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try { applyRestoredState(JSON.parse(reader.result)); }
+      catch (err) { restoreStatusMsg("Couldn't read that file — is it the right backup file?"); }
+    };
+    reader.readAsText(file);
+  });
+
+  document.getElementById('restoreBtn').addEventListener('click', () => {
+    const raw = document.getElementById('restoreText').value.trim();
+    if (!raw) { restoreStatusMsg('Paste your backup text first.'); return; }
+    try { applyRestoredState(JSON.parse(raw)); }
+    catch (err) { restoreStatusMsg("That text isn't valid backup data."); }
+  });
+})();
+</script>
+</body>
+</html>
